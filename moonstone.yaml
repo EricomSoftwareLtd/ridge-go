@@ -3,13 +3,22 @@ info:
   version: v1alpha
   title: k8s API
   description: An API for the managed Kubernetes service
+host: api.ridge.co
 basePath: /rks/v1alpha
 schemes:
+  - https
   - http
 consumes:
   - application/json
 produces:
   - application/json
+securityDefinitions:
+   APIKeyHeader:
+     type: apiKey
+     in: header
+     name: Authorization
+security:
+  - APIKeyHeader: []
 paths:
   /status:
     get:

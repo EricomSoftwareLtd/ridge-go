@@ -27,51 +27,51 @@ type Client struct {
 
 // ClientService is the interface for Client methods
 type ClientService interface {
-	CreateCluster(params *CreateClusterParams) (*CreateClusterOK, error)
+	CreateCluster(params *CreateClusterParams, authInfo runtime.ClientAuthInfoWriter) (*CreateClusterOK, error)
 
-	CreateClusterNodePool(params *CreateClusterNodePoolParams) (*CreateClusterNodePoolOK, error)
+	CreateClusterNodePool(params *CreateClusterNodePoolParams, authInfo runtime.ClientAuthInfoWriter) (*CreateClusterNodePoolOK, error)
 
-	CreateClusterToken(params *CreateClusterTokenParams) (*CreateClusterTokenOK, error)
+	CreateClusterToken(params *CreateClusterTokenParams, authInfo runtime.ClientAuthInfoWriter) (*CreateClusterTokenOK, error)
 
-	DeleteCluster(params *DeleteClusterParams) (*DeleteClusterNoContent, error)
+	DeleteCluster(params *DeleteClusterParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteClusterNoContent, error)
 
-	DeleteClusterNode(params *DeleteClusterNodeParams) (*DeleteClusterNodeNoContent, error)
+	DeleteClusterNode(params *DeleteClusterNodeParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteClusterNodeNoContent, error)
 
-	DeleteClusterNodePool(params *DeleteClusterNodePoolParams) (*DeleteClusterNodePoolNoContent, error)
+	DeleteClusterNodePool(params *DeleteClusterNodePoolParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteClusterNodePoolNoContent, error)
 
-	DeleteClusterToken(params *DeleteClusterTokenParams) (*DeleteClusterTokenNoContent, error)
+	DeleteClusterToken(params *DeleteClusterTokenParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteClusterTokenNoContent, error)
 
-	DescribeCluster(params *DescribeClusterParams) (*DescribeClusterOK, error)
+	DescribeCluster(params *DescribeClusterParams, authInfo runtime.ClientAuthInfoWriter) (*DescribeClusterOK, error)
 
-	DescribeClusterCaCertificate(params *DescribeClusterCaCertificateParams) (*DescribeClusterCaCertificateOK, error)
+	DescribeClusterCaCertificate(params *DescribeClusterCaCertificateParams, authInfo runtime.ClientAuthInfoWriter) (*DescribeClusterCaCertificateOK, error)
 
-	DescribeClusterNode(params *DescribeClusterNodeParams) (*DescribeClusterNodeOK, error)
+	DescribeClusterNode(params *DescribeClusterNodeParams, authInfo runtime.ClientAuthInfoWriter) (*DescribeClusterNodeOK, error)
 
-	DescribeClusterNodePool(params *DescribeClusterNodePoolParams) (*DescribeClusterNodePoolOK, error)
+	DescribeClusterNodePool(params *DescribeClusterNodePoolParams, authInfo runtime.ClientAuthInfoWriter) (*DescribeClusterNodePoolOK, error)
 
-	DescribeClusterToken(params *DescribeClusterTokenParams) (*DescribeClusterTokenOK, error)
+	DescribeClusterToken(params *DescribeClusterTokenParams, authInfo runtime.ClientAuthInfoWriter) (*DescribeClusterTokenOK, error)
 
-	ListClusterLBs(params *ListClusterLBsParams) (*ListClusterLBsOK, error)
+	ListClusterLBs(params *ListClusterLBsParams, authInfo runtime.ClientAuthInfoWriter) (*ListClusterLBsOK, error)
 
-	ListClusterNodePools(params *ListClusterNodePoolsParams) (*ListClusterNodePoolsOK, error)
+	ListClusterNodePools(params *ListClusterNodePoolsParams, authInfo runtime.ClientAuthInfoWriter) (*ListClusterNodePoolsOK, error)
 
-	ListClusterNodes(params *ListClusterNodesParams) (*ListClusterNodesOK, error)
+	ListClusterNodes(params *ListClusterNodesParams, authInfo runtime.ClientAuthInfoWriter) (*ListClusterNodesOK, error)
 
-	ListClusterTokens(params *ListClusterTokensParams) (*ListClusterTokensOK, error)
+	ListClusterTokens(params *ListClusterTokensParams, authInfo runtime.ClientAuthInfoWriter) (*ListClusterTokensOK, error)
 
-	ListClusterVolumes(params *ListClusterVolumesParams) (*ListClusterVolumesOK, error)
+	ListClusterVolumes(params *ListClusterVolumesParams, authInfo runtime.ClientAuthInfoWriter) (*ListClusterVolumesOK, error)
 
-	ListClusters(params *ListClustersParams) (*ListClustersOK, error)
+	ListClusters(params *ListClustersParams, authInfo runtime.ClientAuthInfoWriter) (*ListClustersOK, error)
 
-	ListNodePresets(params *ListNodePresetsParams) (*ListNodePresetsOK, error)
+	ListNodePresets(params *ListNodePresetsParams, authInfo runtime.ClientAuthInfoWriter) (*ListNodePresetsOK, error)
 
-	ListVersions(params *ListVersionsParams) (*ListVersionsOK, error)
+	ListVersions(params *ListVersionsParams, authInfo runtime.ClientAuthInfoWriter) (*ListVersionsOK, error)
 
-	Status(params *StatusParams) (*StatusNoContent, error)
+	Status(params *StatusParams, authInfo runtime.ClientAuthInfoWriter) (*StatusNoContent, error)
 
-	UpdateCluster(params *UpdateClusterParams) (*UpdateClusterOK, error)
+	UpdateCluster(params *UpdateClusterParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateClusterOK, error)
 
-	UpdateClusterNodePool(params *UpdateClusterNodePoolParams) (*UpdateClusterNodePoolOK, error)
+	UpdateClusterNodePool(params *UpdateClusterNodePoolParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateClusterNodePoolOK, error)
 
 	SetTransport(transport runtime.ClientTransport)
 }
@@ -79,7 +79,7 @@ type ClientService interface {
 /*
   CreateCluster creates a kubernetes cluster
 */
-func (a *Client) CreateCluster(params *CreateClusterParams) (*CreateClusterOK, error) {
+func (a *Client) CreateCluster(params *CreateClusterParams, authInfo runtime.ClientAuthInfoWriter) (*CreateClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateClusterParams()
@@ -91,9 +91,10 @@ func (a *Client) CreateCluster(params *CreateClusterParams) (*CreateClusterOK, e
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &CreateClusterReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -113,7 +114,7 @@ func (a *Client) CreateCluster(params *CreateClusterParams) (*CreateClusterOK, e
 /*
   CreateClusterNodePool creates a node pool for a kubernetes cluster
 */
-func (a *Client) CreateClusterNodePool(params *CreateClusterNodePoolParams) (*CreateClusterNodePoolOK, error) {
+func (a *Client) CreateClusterNodePool(params *CreateClusterNodePoolParams, authInfo runtime.ClientAuthInfoWriter) (*CreateClusterNodePoolOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateClusterNodePoolParams()
@@ -125,9 +126,10 @@ func (a *Client) CreateClusterNodePool(params *CreateClusterNodePoolParams) (*Cr
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/node-pools",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &CreateClusterNodePoolReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -147,7 +149,7 @@ func (a *Client) CreateClusterNodePool(params *CreateClusterNodePoolParams) (*Cr
 /*
   CreateClusterToken creates a token for a kubernetes cluster
 */
-func (a *Client) CreateClusterToken(params *CreateClusterTokenParams) (*CreateClusterTokenOK, error) {
+func (a *Client) CreateClusterToken(params *CreateClusterTokenParams, authInfo runtime.ClientAuthInfoWriter) (*CreateClusterTokenOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewCreateClusterTokenParams()
@@ -159,9 +161,10 @@ func (a *Client) CreateClusterToken(params *CreateClusterTokenParams) (*CreateCl
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/tokens",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &CreateClusterTokenReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -181,7 +184,7 @@ func (a *Client) CreateClusterToken(params *CreateClusterTokenParams) (*CreateCl
 /*
   DeleteCluster deletes a cluster
 */
-func (a *Client) DeleteCluster(params *DeleteClusterParams) (*DeleteClusterNoContent, error) {
+func (a *Client) DeleteCluster(params *DeleteClusterParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteClusterNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteClusterParams()
@@ -193,9 +196,10 @@ func (a *Client) DeleteCluster(params *DeleteClusterParams) (*DeleteClusterNoCon
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &DeleteClusterReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -215,7 +219,7 @@ func (a *Client) DeleteCluster(params *DeleteClusterParams) (*DeleteClusterNoCon
 /*
   DeleteClusterNode shuts down a cluster s worker node
 */
-func (a *Client) DeleteClusterNode(params *DeleteClusterNodeParams) (*DeleteClusterNodeNoContent, error) {
+func (a *Client) DeleteClusterNode(params *DeleteClusterNodeParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteClusterNodeNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteClusterNodeParams()
@@ -227,9 +231,10 @@ func (a *Client) DeleteClusterNode(params *DeleteClusterNodeParams) (*DeleteClus
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/node-pools/{node_pool}/nodes/{node}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &DeleteClusterNodeReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -249,7 +254,7 @@ func (a *Client) DeleteClusterNode(params *DeleteClusterNodeParams) (*DeleteClus
 /*
   DeleteClusterNodePool deletes a cluster s node pool
 */
-func (a *Client) DeleteClusterNodePool(params *DeleteClusterNodePoolParams) (*DeleteClusterNodePoolNoContent, error) {
+func (a *Client) DeleteClusterNodePool(params *DeleteClusterNodePoolParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteClusterNodePoolNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteClusterNodePoolParams()
@@ -261,9 +266,10 @@ func (a *Client) DeleteClusterNodePool(params *DeleteClusterNodePoolParams) (*De
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/node-pools/{node_pool}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &DeleteClusterNodePoolReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -283,7 +289,7 @@ func (a *Client) DeleteClusterNodePool(params *DeleteClusterNodePoolParams) (*De
 /*
   DeleteClusterToken deletes a cluster token
 */
-func (a *Client) DeleteClusterToken(params *DeleteClusterTokenParams) (*DeleteClusterTokenNoContent, error) {
+func (a *Client) DeleteClusterToken(params *DeleteClusterTokenParams, authInfo runtime.ClientAuthInfoWriter) (*DeleteClusterTokenNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDeleteClusterTokenParams()
@@ -295,9 +301,10 @@ func (a *Client) DeleteClusterToken(params *DeleteClusterTokenParams) (*DeleteCl
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/tokens/{token}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &DeleteClusterTokenReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -317,7 +324,7 @@ func (a *Client) DeleteClusterToken(params *DeleteClusterTokenParams) (*DeleteCl
 /*
   DescribeCluster describes a kubernetes cluster
 */
-func (a *Client) DescribeCluster(params *DescribeClusterParams) (*DescribeClusterOK, error) {
+func (a *Client) DescribeCluster(params *DescribeClusterParams, authInfo runtime.ClientAuthInfoWriter) (*DescribeClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeClusterParams()
@@ -329,9 +336,10 @@ func (a *Client) DescribeCluster(params *DescribeClusterParams) (*DescribeCluste
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &DescribeClusterReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -351,7 +359,7 @@ func (a *Client) DescribeCluster(params *DescribeClusterParams) (*DescribeCluste
 /*
   DescribeClusterCaCertificate describes a kubernetes cluster s c a certificate
 */
-func (a *Client) DescribeClusterCaCertificate(params *DescribeClusterCaCertificateParams) (*DescribeClusterCaCertificateOK, error) {
+func (a *Client) DescribeClusterCaCertificate(params *DescribeClusterCaCertificateParams, authInfo runtime.ClientAuthInfoWriter) (*DescribeClusterCaCertificateOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeClusterCaCertificateParams()
@@ -363,9 +371,10 @@ func (a *Client) DescribeClusterCaCertificate(params *DescribeClusterCaCertifica
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/ca-certificate",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &DescribeClusterCaCertificateReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -385,7 +394,7 @@ func (a *Client) DescribeClusterCaCertificate(params *DescribeClusterCaCertifica
 /*
   DescribeClusterNode gets information about a worker node
 */
-func (a *Client) DescribeClusterNode(params *DescribeClusterNodeParams) (*DescribeClusterNodeOK, error) {
+func (a *Client) DescribeClusterNode(params *DescribeClusterNodeParams, authInfo runtime.ClientAuthInfoWriter) (*DescribeClusterNodeOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeClusterNodeParams()
@@ -397,9 +406,10 @@ func (a *Client) DescribeClusterNode(params *DescribeClusterNodeParams) (*Descri
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/node-pools/{node_pool}/nodes/{node}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &DescribeClusterNodeReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -419,7 +429,7 @@ func (a *Client) DescribeClusterNode(params *DescribeClusterNodeParams) (*Descri
 /*
   DescribeClusterNodePool gets information about a node pool
 */
-func (a *Client) DescribeClusterNodePool(params *DescribeClusterNodePoolParams) (*DescribeClusterNodePoolOK, error) {
+func (a *Client) DescribeClusterNodePool(params *DescribeClusterNodePoolParams, authInfo runtime.ClientAuthInfoWriter) (*DescribeClusterNodePoolOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeClusterNodePoolParams()
@@ -431,9 +441,10 @@ func (a *Client) DescribeClusterNodePool(params *DescribeClusterNodePoolParams) 
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/node-pools/{node_pool}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &DescribeClusterNodePoolReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -453,7 +464,7 @@ func (a *Client) DescribeClusterNodePool(params *DescribeClusterNodePoolParams) 
 /*
   DescribeClusterToken gets information about a cluster token
 */
-func (a *Client) DescribeClusterToken(params *DescribeClusterTokenParams) (*DescribeClusterTokenOK, error) {
+func (a *Client) DescribeClusterToken(params *DescribeClusterTokenParams, authInfo runtime.ClientAuthInfoWriter) (*DescribeClusterTokenOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewDescribeClusterTokenParams()
@@ -465,9 +476,10 @@ func (a *Client) DescribeClusterToken(params *DescribeClusterTokenParams) (*Desc
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/tokens/{token}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &DescribeClusterTokenReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -487,7 +499,7 @@ func (a *Client) DescribeClusterToken(params *DescribeClusterTokenParams) (*Desc
 /*
   ListClusterLBs lists the load balancers of the kubernetes cluster s services of type load balancer
 */
-func (a *Client) ListClusterLBs(params *ListClusterLBsParams) (*ListClusterLBsOK, error) {
+func (a *Client) ListClusterLBs(params *ListClusterLBsParams, authInfo runtime.ClientAuthInfoWriter) (*ListClusterLBsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListClusterLBsParams()
@@ -499,9 +511,10 @@ func (a *Client) ListClusterLBs(params *ListClusterLBsParams) (*ListClusterLBsOK
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/load-balancers",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &ListClusterLBsReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -521,7 +534,7 @@ func (a *Client) ListClusterLBs(params *ListClusterLBsParams) (*ListClusterLBsOK
 /*
   ListClusterNodePools lists the node pools of a kubernetes clusters
 */
-func (a *Client) ListClusterNodePools(params *ListClusterNodePoolsParams) (*ListClusterNodePoolsOK, error) {
+func (a *Client) ListClusterNodePools(params *ListClusterNodePoolsParams, authInfo runtime.ClientAuthInfoWriter) (*ListClusterNodePoolsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListClusterNodePoolsParams()
@@ -533,9 +546,10 @@ func (a *Client) ListClusterNodePools(params *ListClusterNodePoolsParams) (*List
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/node-pools",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &ListClusterNodePoolsReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -555,7 +569,7 @@ func (a *Client) ListClusterNodePools(params *ListClusterNodePoolsParams) (*List
 /*
   ListClusterNodes lists the worker nodes of a kubernetes clusters
 */
-func (a *Client) ListClusterNodes(params *ListClusterNodesParams) (*ListClusterNodesOK, error) {
+func (a *Client) ListClusterNodes(params *ListClusterNodesParams, authInfo runtime.ClientAuthInfoWriter) (*ListClusterNodesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListClusterNodesParams()
@@ -567,9 +581,10 @@ func (a *Client) ListClusterNodes(params *ListClusterNodesParams) (*ListClusterN
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/node-pools/{node_pool}/nodes",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &ListClusterNodesReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -589,7 +604,7 @@ func (a *Client) ListClusterNodes(params *ListClusterNodesParams) (*ListClusterN
 /*
   ListClusterTokens lists the tokens of a kubernetes cluster
 */
-func (a *Client) ListClusterTokens(params *ListClusterTokensParams) (*ListClusterTokensOK, error) {
+func (a *Client) ListClusterTokens(params *ListClusterTokensParams, authInfo runtime.ClientAuthInfoWriter) (*ListClusterTokensOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListClusterTokensParams()
@@ -601,9 +616,10 @@ func (a *Client) ListClusterTokens(params *ListClusterTokensParams) (*ListCluste
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/tokens",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &ListClusterTokensReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -623,7 +639,7 @@ func (a *Client) ListClusterTokens(params *ListClusterTokensParams) (*ListCluste
 /*
   ListClusterVolumes lists the persistent volumes of the kubernetes cluster
 */
-func (a *Client) ListClusterVolumes(params *ListClusterVolumesParams) (*ListClusterVolumesOK, error) {
+func (a *Client) ListClusterVolumes(params *ListClusterVolumesParams, authInfo runtime.ClientAuthInfoWriter) (*ListClusterVolumesOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListClusterVolumesParams()
@@ -635,9 +651,10 @@ func (a *Client) ListClusterVolumes(params *ListClusterVolumesParams) (*ListClus
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/volumes",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &ListClusterVolumesReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -657,7 +674,7 @@ func (a *Client) ListClusterVolumes(params *ListClusterVolumesParams) (*ListClus
 /*
   ListClusters lists the kubernetes clusters
 */
-func (a *Client) ListClusters(params *ListClustersParams) (*ListClustersOK, error) {
+func (a *Client) ListClusters(params *ListClustersParams, authInfo runtime.ClientAuthInfoWriter) (*ListClustersOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListClustersParams()
@@ -669,9 +686,10 @@ func (a *Client) ListClusters(params *ListClustersParams) (*ListClustersOK, erro
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &ListClustersReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -693,7 +711,7 @@ func (a *Client) ListClusters(params *ListClustersParams) (*ListClustersOK, erro
 
   List the Kubernetes-node presets. Presets are suggested node sizes in terms of CPU, memory and ephemeral storage
 */
-func (a *Client) ListNodePresets(params *ListNodePresetsParams) (*ListNodePresetsOK, error) {
+func (a *Client) ListNodePresets(params *ListNodePresetsParams, authInfo runtime.ClientAuthInfoWriter) (*ListNodePresetsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListNodePresetsParams()
@@ -705,9 +723,10 @@ func (a *Client) ListNodePresets(params *ListNodePresetsParams) (*ListNodePreset
 		PathPattern:        "/node-presets",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &ListNodePresetsReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -727,7 +746,7 @@ func (a *Client) ListNodePresets(params *ListNodePresetsParams) (*ListNodePreset
 /*
   ListVersions returns supported kubernetes versions
 */
-func (a *Client) ListVersions(params *ListVersionsParams) (*ListVersionsOK, error) {
+func (a *Client) ListVersions(params *ListVersionsParams, authInfo runtime.ClientAuthInfoWriter) (*ListVersionsOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewListVersionsParams()
@@ -739,9 +758,10 @@ func (a *Client) ListVersions(params *ListVersionsParams) (*ListVersionsOK, erro
 		PathPattern:        "/k8s-versions",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &ListVersionsReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -761,7 +781,7 @@ func (a *Client) ListVersions(params *ListVersionsParams) (*ListVersionsOK, erro
 /*
   Status checks if API is ready to serve requests it is if 204 HTTP response code is returned
 */
-func (a *Client) Status(params *StatusParams) (*StatusNoContent, error) {
+func (a *Client) Status(params *StatusParams, authInfo runtime.ClientAuthInfoWriter) (*StatusNoContent, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewStatusParams()
@@ -773,9 +793,10 @@ func (a *Client) Status(params *StatusParams) (*StatusNoContent, error) {
 		PathPattern:        "/status",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &StatusReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -795,7 +816,7 @@ func (a *Client) Status(params *StatusParams) (*StatusNoContent, error) {
 /*
   UpdateCluster updates kubernetes cluster parameters
 */
-func (a *Client) UpdateCluster(params *UpdateClusterParams) (*UpdateClusterOK, error) {
+func (a *Client) UpdateCluster(params *UpdateClusterParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateClusterOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpdateClusterParams()
@@ -807,9 +828,10 @@ func (a *Client) UpdateCluster(params *UpdateClusterParams) (*UpdateClusterOK, e
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &UpdateClusterReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
@@ -829,7 +851,7 @@ func (a *Client) UpdateCluster(params *UpdateClusterParams) (*UpdateClusterOK, e
 /*
   UpdateClusterNodePool updates node pool parameters
 */
-func (a *Client) UpdateClusterNodePool(params *UpdateClusterNodePoolParams) (*UpdateClusterNodePoolOK, error) {
+func (a *Client) UpdateClusterNodePool(params *UpdateClusterNodePoolParams, authInfo runtime.ClientAuthInfoWriter) (*UpdateClusterNodePoolOK, error) {
 	// TODO: Validate the params before sending
 	if params == nil {
 		params = NewUpdateClusterNodePoolParams()
@@ -841,9 +863,10 @@ func (a *Client) UpdateClusterNodePool(params *UpdateClusterNodePoolParams) (*Up
 		PathPattern:        "/orgs/{org}/projects/{project}/clusters/{cluster}/node-pools/{node_pool}",
 		ProducesMediaTypes: []string{"application/json"},
 		ConsumesMediaTypes: []string{"application/json"},
-		Schemes:            []string{"http"},
+		Schemes:            []string{"http", "https"},
 		Params:             params,
 		Reader:             &UpdateClusterNodePoolReader{formats: a.formats},
+		AuthInfo:           authInfo,
 		Context:            params.Context,
 		Client:             params.HTTPClient,
 	})
